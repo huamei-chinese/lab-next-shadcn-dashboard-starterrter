@@ -35,10 +35,10 @@ import { NavGroup } from '@/types';
  */
 export const navGroups: NavGroup[] = [
   {
-    label: 'Overview',
+    label: 'HuaMei Admin',
     items: [
       {
-        title: 'Dashboard',
+        title: 'Dashboard / 数据总览',
         url: '/dashboard/overview',
         icon: 'dashboard',
         isActive: false,
@@ -61,7 +61,7 @@ export const navGroups: NavGroup[] = [
         access: { requireOrg: true }
       },
       {
-        title: 'Product',
+        title: 'Courses / 课程管理',
         url: '/dashboard/product',
         icon: 'product',
         shortcut: ['p', 'p'],
@@ -69,7 +69,7 @@ export const navGroups: NavGroup[] = [
         items: []
       },
       {
-        title: 'Users',
+        title: 'Students / 学生管理',
         url: '/dashboard/users',
         icon: 'teams',
         shortcut: ['u', 'u'],
@@ -77,7 +77,7 @@ export const navGroups: NavGroup[] = [
         items: []
       },
       {
-        title: 'Kanban',
+        title: 'Materials / 素材管理',
         url: '/dashboard/kanban',
         icon: 'kanban',
         shortcut: ['k', 'k'],
@@ -85,7 +85,7 @@ export const navGroups: NavGroup[] = [
         items: []
       },
       {
-        title: 'Chat',
+        title: 'Audio / 音频管理',
         url: '/dashboard/chat',
         icon: 'chat',
         shortcut: ['c', 'c'],
@@ -95,10 +95,10 @@ export const navGroups: NavGroup[] = [
     ]
   },
   {
-    label: 'Elements',
+    label: 'Operations',
     items: [
       {
-        title: 'Forms',
+        title: 'Leads / 线索管理',
         url: '#',
         icon: 'forms',
         isActive: true,
@@ -127,14 +127,14 @@ export const navGroups: NavGroup[] = [
         ]
       },
       {
-        title: 'React Query',
+        title: 'Teachers / 教师管理',
         url: '/dashboard/react-query',
         icon: 'code',
         isActive: false,
         items: []
       },
       {
-        title: 'Icons',
+        title: 'Settings / 系统设置',
         url: '/dashboard/elements/icons',
         icon: 'palette',
         isActive: false,
