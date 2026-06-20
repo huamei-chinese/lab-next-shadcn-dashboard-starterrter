@@ -24,6 +24,14 @@ const baseConfig: NextConfig = {
     ]
   },
   transpilePackages: ['geist'],
+  async rewrites() {
+    return [
+      {
+        source: '/lab-preview/huamei-admin',
+        destination: '/lab-preview/huamei-admin/index.html'
+      }
+    ];
+  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production'
   }

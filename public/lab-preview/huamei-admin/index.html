@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HuaMei Admin</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --background: #fafafa;
+        --foreground: #18181b;
+        --muted: #71717a;
+        --muted-foreground: #52525b;
+        --surface: #ffffff;
+        --surface-subtle: #f4f4f5;
+        --border: #e4e4e7;
+        --primary: #18181b;
+        --primary-foreground: #fafafa;
+        --accent: #eff6ff;
+        --accent-foreground: #1d4ed8;
+        --success: #ecfdf5;
+        --success-foreground: #047857;
+        --warning: #fffbeb;
+        --warning-foreground: #b45309;
+        --radius: 10px;
+        --shadow: 0 1px 2px rgb(24 24 27 / 0.06), 0 8px 24px rgb(24 24 27 / 0.06);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--foreground);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
+      }
+
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+      }
+
+      .sidebar {
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        padding: 18px 14px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px 14px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .brand-title {
+        font-size: 15px;
+        font-weight: 650;
+        line-height: 1.2;
+      }
+
+      .brand-subtitle {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 2px;
+      }
+
+      .nav-section {
+        display: grid;
+        gap: 4px;
+      }
+
+      .nav-label {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 650;
+        letter-spacing: 0.04em;
+        padding: 0 10px 6px;
+        text-transform: uppercase;
+      }
+
+      .nav-item {
+        min-height: 38px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 10px;
+        color: var(--muted-foreground);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .nav-item.active {
+        background: var(--surface-subtle);
+        color: var(--foreground);
+        font-weight: 650;
+      }
+
+      .nav-icon {
+        width: 18px;
+        height: 18px;
+        border-radius: 5px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      .main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .topbar {
+        height: 58px;
+        border-bottom: 1px solid var(--border);
+        background: rgb(250 250 250 / 0.86);
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+      }
+
+      .topbar-title {
+        font-size: 14px;
+        font-weight: 650;
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .ghost-button {
+        height: 34px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--muted-foreground);
+        display: inline-flex;
+        align-items: center;
+        padding: 0 12px;
+        font-size: 13px;
+        font-weight: 550;
+      }
+
+      .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .content {
+        padding: 26px 28px 34px;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 26px;
+        line-height: 1.2;
+        font-weight: 750;
+        letter-spacing: 0;
+      }
+
+      .page-description {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .demo-note {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+        padding: 10px 12px;
+        color: var(--muted-foreground);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+
+      .metric-label {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 550;
+      }
+
+      .metric-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .metric-value {
+        font-size: 28px;
+        line-height: 1;
+        font-weight: 760;
+        letter-spacing: 0;
+      }
+
+      .metric-badge {
+        border-radius: 999px;
+        padding: 4px 8px;
+        background: var(--success);
+        color: var(--success-foreground);
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .metric-badge.warning {
+        background: var(--warning);
+        color: var(--warning-foreground);
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
+        gap: 14px;
+      }
+
+      .panel-title {
+        margin: 0 0 14px;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .chart {
+        height: 258px;
+        display: flex;
+        align-items: end;
+        gap: 10px;
+        padding-top: 20px;
+      }
+
+      .bar {
+        flex: 1;
+        border-radius: 8px 8px 3px 3px;
+        background: linear-gradient(180deg, #18181b 0%, #52525b 100%);
+        min-height: 44px;
+      }
+
+      .activity-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .activity {
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 10px;
+        align-items: center;
+      }
+
+      .activity-dot {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        background: var(--accent);
+        color: var(--accent-foreground);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 12px;
+      }
+
+      .activity-title {
+        font-size: 14px;
+        font-weight: 650;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .activity-meta {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 2px;
+      }
+
+      @media (max-width: 920px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          display: none;
+        }
+
+        .stats-grid,
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar,
+        .content {
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+
+        .page-header {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" aria-label="HuaMei Admin navigation">
+        <div class="brand">
+          <div class="brand-mark">HM</div>
+          <div>
+            <div class="brand-title">HuaMei Admin</div>
+            <div class="brand-subtitle">Lab preview</div>
+          </div>
+        </div>
+
+        <nav class="nav-section">
+          <div class="nav-label">HuaMei Admin</div>
+          <div class="nav-item active"><span class="nav-icon"></span>数据总览</div>
+          <div class="nav-item"><span class="nav-icon"></span>学生管理</div>
+          <div class="nav-item"><span class="nav-icon"></span>课程管理</div>
+          <div class="nav-item"><span class="nav-icon"></span>素材管理</div>
+          <div class="nav-item"><span class="nav-icon"></span>音频管理</div>
+          <div class="nav-item"><span class="nav-icon"></span>线索管理</div>
+          <div class="nav-item"><span class="nav-icon"></span>教师管理</div>
+          <div class="nav-item"><span class="nav-icon"></span>系统设置</div>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="topbar-title">HuaMei Admin</div>
+          <div class="topbar-actions">
+            <div class="ghost-button">Lab preview</div>
+            <div class="avatar">HM</div>
+          </div>
+        </header>
+
+        <section class="content">
+          <div class="page-header">
+            <div>
+              <h1>HuaMei 汉语学习后台</h1>
+              <p class="page-description">用于预览 HuaMei 后台信息架构与视觉方向的静态实验页面。</p>
+            </div>
+            <div class="demo-note">
+              静态 lab preview：不连接 Clerk、数据库、billing 或任何真实客户数据。
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="card">
+              <div class="metric-label">今日新增线索</div>
+              <div class="metric-row">
+                <div class="metric-value">18</div>
+                <div class="metric-badge">+12%</div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="metric-label">在读学生</div>
+              <div class="metric-row">
+                <div class="metric-value">246</div>
+                <div class="metric-badge">稳定</div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="metric-label">课程数量</div>
+              <div class="metric-row">
+                <div class="metric-value">32</div>
+                <div class="metric-badge">+3</div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="metric-label">待处理素材</div>
+              <div class="metric-row">
+                <div class="metric-value">9</div>
+                <div class="metric-badge warning">待审</div>
+              </div>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="card">
+              <h2 class="panel-title">学习与线索趋势</h2>
+              <div class="chart" aria-label="模拟趋势图">
+                <div class="bar" style="height: 42%"></div>
+                <div class="bar" style="height: 58%"></div>
+                <div class="bar" style="height: 49%"></div>
+                <div class="bar" style="height: 72%"></div>
+                <div class="bar" style="height: 66%"></div>
+                <div class="bar" style="height: 84%"></div>
+                <div class="bar" style="height: 78%"></div>
+                <div class="bar" style="height: 92%"></div>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2 class="panel-title">最近事项</h2>
+              <div class="activity-list">
+                <div class="activity">
+                  <div class="activity-dot">学</div>
+                  <div>
+                    <div class="activity-title">新学生完成入学测评</div>
+                    <div class="activity-meta">模拟数据 · 10 分钟前</div>
+                  </div>
+                </div>
+                <div class="activity">
+                  <div class="activity-dot">课</div>
+                  <div>
+                    <div class="activity-title">HSK 课程资料待审核</div>
+                    <div class="activity-meta">模拟数据 · 32 分钟前</div>
+                  </div>
+                </div>
+                <div class="activity">
+                  <div class="activity-dot">音</div>
+                  <div>
+                    <div class="activity-title">音频素材完成上传</div>
+                    <div class="activity-meta">模拟数据 · 1 小时前</div>
+                  </div>
+                </div>
+                <div class="activity">
+                  <div class="activity-dot">线</div>
+                  <div>
+                    <div class="activity-title">线索需要教师跟进</div>
+                    <div class="activity-meta">模拟数据 · 今天</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

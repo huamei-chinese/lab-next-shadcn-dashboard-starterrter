@@ -8,6 +8,7 @@ import type { Metadata, Viewport } from 'next';
 import { cookies } from 'next/headers';
 import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import Script from 'next/script';
 import '../styles/globals.css';
 
 const META_THEME_COLORS = {
@@ -16,8 +17,8 @@ const META_THEME_COLORS = {
 };
 
 export const metadata: Metadata = {
-  title: 'Next Shadcn',
-  description: 'Basic dashboard with Next.js and Shadcn'
+  title: 'HuaMei Admin',
+  description: 'HuaMei Chinese learning admin dashboard'
 };
 
 export const viewport: Viewport = {
@@ -33,7 +34,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang='en' suppressHydrationWarning data-theme={themeToApply}>
       <head>
-        <script
+        <Script
+          id='theme-color-init'
+          strategy='beforeInteractive'
           dangerouslySetInnerHTML={{
             __html: `
               try {
