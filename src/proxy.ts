@@ -1,10 +1,15 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
 const isLabDemoMode = process.env.LAB_DEMO_MODE === 'true';
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
+  if (req.nextUrl.pathname === '/lab-preview/huamei-admin') {
+    return NextResponse.rewrite(new URL('/lab-preview/huamei-admin/index.html', req.url));
+  }
+
   if (isProtectedRoute(req) && !isLabDemoMode) await auth.protect();
 });
 export const config = {
